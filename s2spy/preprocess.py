@@ -78,7 +78,6 @@ def _subtract_linear_trend(data: Union[xr.DataArray, xr.Dataset], trend: dict):
     return data - trend["intercept"] - trend["slope"] * (data["time"].astype(float))
 
 
-
 def _subtract_polynomial_trend(
     data: Union[xr.DataArray, xr.Dataset], trend: dict, degree: int = 2
 ):
@@ -103,7 +102,6 @@ def _subtract_polynomial_trend(
     ).swap_dims({"ordinal_day": "time"})
 
     return (data - polynomial_trend).polyfit_coefficients
-
 
 
 def _get_trend(
@@ -148,11 +146,6 @@ def _trend_poly(
     return {"coefficients": coeffs}
 
 
-=======
-    raise ValueError(f"Unkown detrending method '{method}'")
-
-
->>>>>>> 38476ce (Revert "polynomial detrending")
 def _subtract_trend(data: Union[xr.DataArray, xr.Dataset], method: str, trend: dict):
     """Subtract the previously calculated trend from (new) data. Only linear is implemented."""
     if method == "linear":
