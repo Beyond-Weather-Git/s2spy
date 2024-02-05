@@ -5,9 +5,6 @@ from typing import Union
 import numpy as np
 import scipy.stats
 import xarray as xr
-import matplotlib.pyplot as plt
-import numpy as np
-import xarray as xr
 
 
 def _linregress(
@@ -81,6 +78,7 @@ def _subtract_linear_trend(data: Union[xr.DataArray, xr.Dataset], trend: dict):
     return data - trend["intercept"] - trend["slope"] * (data["time"].astype(float))
 
 
+
 def _subtract_polynomial_trend(
     data: Union[xr.DataArray, xr.Dataset], trend: dict, degree: int = 2
 ):
@@ -107,16 +105,13 @@ def _subtract_polynomial_trend(
     return (data - polynomial_trend).polyfit_coefficients
 
 
+
 def _get_trend(
-    data: Union[xr.DataArray, xr.Dataset],
-    method: str,
-    nan_mask: str = "complete",
-    degree=2,
+    data: Union[xr.DataArray, xr.Dataset], method: str, nan_mask: str = "complete"
 ):
     """Calculate the trend, with a certain method. Only linear is implemented."""
     if method == "linear":
         return _trend_linear(data, nan_mask)
-
     if method == "polynomial":
         return _trend_poly(data, degree, nan_mask)
     raise ValueError(f"Unkown detrending method '{method}'")
@@ -153,12 +148,15 @@ def _trend_poly(
     return {"coefficients": coeffs}
 
 
+=======
+    raise ValueError(f"Unkown detrending method '{method}'")
+
+
+>>>>>>> 38476ce (Revert "polynomial detrending")
 def _subtract_trend(data: Union[xr.DataArray, xr.Dataset], method: str, trend: dict):
     """Subtract the previously calculated trend from (new) data. Only linear is implemented."""
     if method == "linear":
         return _subtract_linear_trend(data, trend)
-    if method == "polynomial":
-        return _subtract_polynomial_trend(data, trend)
     raise NotImplementedError
 
 
